@@ -15,6 +15,26 @@ export function MultiMatchQuery(query, options:MultiMatchOptions){
   }
 
   return {
-    multi_match:assign({query}, options)
+    function_score:{
+      query: {
+        multi_match:assign({query}, options)
+      },
+      functions: [
+        {
+          linear: {
+            publication_date: {
+              origin: "now",
+              offset: "30d",
+              scale: "500d",
+              decay: 0.5
+            }
+          }
+        }
+      ],
+      max_boost: 1000,
+      score_mode: "multiply",
+      boost_mode: "multiply",
+      min_score: 0
+    }
   }
 }
