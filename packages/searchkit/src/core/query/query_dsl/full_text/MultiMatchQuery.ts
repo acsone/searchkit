@@ -21,12 +21,12 @@ export function MultiMatchQuery(query, options:MultiMatchOptions){
       },
       functions: [
         {
-          linear: {
+          gauss: {
             publication_date: {
               origin: "now",
               offset: "30d",
               scale: "500d",
-              decay: 0.5
+              decay: 0.1
             }
           }
         }
